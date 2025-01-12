@@ -1,0 +1,9 @@
+
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true"> <!--for the button pressed-->
+        <ripple android:color="@color/dark_mint"> <!--ripple color-->
+            <item android:drawable="@drawable/button_background_pressed" />
+        </ripple> <!--change color-->
+    </item>
+    <item android:drawable="@drawable/button_background_normal" />  <!--for the normal button-->
+</selector>

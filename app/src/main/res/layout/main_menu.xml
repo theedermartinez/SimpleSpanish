@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<!--imports to allows parents to move around-->
+<!--imports to allows parents to move around USE BACKGROUND TINT AHHHHH ARGS ARSGS ARAGSGSGFJDSFDSA FSA FLKSAJFFLKDJFF:
+The size of it is: 200 by 90  or 20 by 9 buttons, keep consistent please-->
     <TextView
         android:id="@+id/LLA_id"
         android:layout_width="wrap_content"
@@ -21,41 +22,57 @@
     <Button
         android:id="@+id/basic_greetings_buttonid"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:layout_marginTop="80dp"
         android:text="Basic Greetings"
         app:layout_constraintTop_toBottomOf="@+id/LLA_id"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/ripple_button"
+        android:padding="12pt"
+        android:elevation="10dp"
+        />
 
     <Button
         android:id="@+id/nouns_and_articles_buttonid"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:layout_marginTop="80dp"
         android:text="Nouns and Articles"
         app:layout_constraintTop_toBottomOf="@+id/basic_greetings_buttonid"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/ripple_button"
+        android:padding="10pt"
+        android:elevation="10dp"
+        />
 
     <Button
         android:id="@+id/present_verbs_buttonid"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:layout_marginTop="80dp"
         android:text="Present Verbs"
         app:layout_constraintTop_toBottomOf="@+id/nouns_and_articles_buttonid"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/ripple_button"
+        android:padding="12pt"
+        android:elevation="10dp"
+        />
 
     <Button
         android:id="@+id/future_verbs_buttonid"
         android:layout_width="200dp"
-        android:layout_height="wrap_content"
+        android:layout_height="90dp"
         android:layout_marginTop="80dp"
         android:text="Future Verbs"
         app:layout_constraintTop_toBottomOf="@+id/present_verbs_buttonid"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/ripple_button"
+        android:padding="12pt"
+        android:elevation="10dp"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

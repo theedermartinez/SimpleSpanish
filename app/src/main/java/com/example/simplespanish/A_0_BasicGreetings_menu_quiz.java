@@ -15,7 +15,6 @@ import android.widget.TextView;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.unusedapprestrictions.IUnusedAppRestrictionsBackportCallback;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -28,7 +27,6 @@ import java.io.InputStreamReader;
 
 import java.io.StringReader;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
@@ -36,9 +34,9 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //for old displays
         EdgeToEdge.enable(this);
         setContentView(R.layout.a_0_basic_greetings_menu_quiz);
-        //for old displays
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.a_0_main_quiz), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
@@ -64,9 +62,6 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
         }
         //make quiz
         readFileQuiz("a_0_basic_greetings_quiz",button0,button1,button2,button3);
-
-
-
 
 
 
@@ -109,6 +104,8 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
 
             }
             // here everything is added to the arraylist. Now we create a 2d array with [keepuestion.length][6] // quesitons,1,2,3,4,answer
+            //quiz length is detemrined by the length of the arraylist when all the questions are in it
+            int quizLength = keepQuestionsArrayList.size();
 
             String[][] keep2dArray = new String[keepQuestionsArrayList.size()][6];//making it the right size
 
@@ -123,6 +120,10 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
 
                 String quest = keepQuestionsArrayList.get(0);
                 String[] splitArray = quest.split(",");
+                if(splitArray.length != 6)
+                {
+                    makeAlertStop("Error: readFileQuiz A_0_BG_menu_L: Format Wrong");
+                }
 
                 //add every element of the split array
                 for(int i = 0; i < splitArray.length; i++)
@@ -141,7 +142,7 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
             //following variables are used for moving and answering
             //moved to method displayFileQuiz
 
-            displayFileQuiz(keep2dArray,button0,button1,button2,button3);
+            displayFileQuiz(keep2dArray,button0,button1,button2,button3,quizLength);
 
 
         }
@@ -159,10 +160,11 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
     * DO NOT FORGET TO UPDATE WITHIN THE LISTENER TO CHANGE THE OUTCOME OF WHAT IS DISPLAYD
     *
      */
-    private void displayFileQuiz(String[][] array, Button button0, Button button1, Button button2, Button button3)
+    private void displayFileQuiz(String[][] array, Button button0, Button button1, Button button2, Button button3,int maxLength)
     {
         AtomicInteger currentQuestionIndexRow = new AtomicInteger(0);//used to move the 2d array
         boolean endQuiz = false;
+
 
             /*
             old can be deleted
@@ -173,43 +175,59 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
             pushToFront(array[currentQuestionIndexRow.get()][4], "quiz0_answer3_buttonid");// opt 3
             */
 
+        updateEveryButton(array,currentQuestionIndexRow);
+        AtomicInteger numToAddScore = new AtomicInteger(0);
+        AtomicInteger currentScore = new AtomicInteger(0);// we use atomic to keep it updating and it does not return to 0
+
+        //button listeners
+
+        button0.setOnClickListener(v->
+        {
+            numToAddScore.getAndAdd(checkCorrectAnswer(array[currentQuestionIndexRow.get()][5],array[currentQuestionIndexRow.get()][1]));
+            currentQuestionIndexRow.incrementAndGet();
+            checkIfEnd(currentQuestionIndexRow.get(),maxLength,currentScore.get());
             updateEveryButton(array,currentQuestionIndexRow);
-
-            //button listeners
-
-            button0.setOnClickListener(v->
-            {
-                int num = checkCorrectAnswer(array[currentQuestionIndexRow.get()][5],array[currentQuestionIndexRow.get()][1]);
-                currentQuestionIndexRow.incrementAndGet();
-                updateEveryButton(array,currentQuestionIndexRow);
+            updateCurrScore(numToAddScore,currentScore);
 
 
-            });
+        });
 
-            button1.setOnClickListener(v->
-            {
-                int num = checkCorrectAnswer(array[currentQuestionIndexRow.get()][5],array[currentQuestionIndexRow.get()][2]);
-                currentQuestionIndexRow.incrementAndGet();
-                updateEveryButton(array,currentQuestionIndexRow);
+        button1.setOnClickListener(v->
+        {
+            numToAddScore.getAndAdd(checkCorrectAnswer(array[currentQuestionIndexRow.get()][5],array[currentQuestionIndexRow.get()][2]));
+            currentQuestionIndexRow.incrementAndGet();
+            checkIfEnd(currentQuestionIndexRow.get(),maxLength,currentScore.get());
+            updateEveryButton(array,currentQuestionIndexRow);
+            updateCurrScore(numToAddScore,currentScore);
 
-            });
 
-            button2.setOnClickListener(v->
-            {
-                int num = checkCorrectAnswer(array[currentQuestionIndexRow.get()][5],array[currentQuestionIndexRow.get()][3]);
-                currentQuestionIndexRow.incrementAndGet();
-                updateEveryButton(array,currentQuestionIndexRow);
+        });
 
-            });
+        button2.setOnClickListener(v->
+        {
+            numToAddScore.getAndAdd(checkCorrectAnswer(array[currentQuestionIndexRow.get()][5],array[currentQuestionIndexRow.get()][3]));
+            currentQuestionIndexRow.incrementAndGet();
+            checkIfEnd(currentQuestionIndexRow.get(),maxLength,currentScore.get());
+            updateEveryButton(array,currentQuestionIndexRow);
+            updateCurrScore(numToAddScore,currentScore);
 
-            button3.setOnClickListener(v->
-            {
-                int num = checkCorrectAnswer(array[currentQuestionIndexRow.get()][5],array[currentQuestionIndexRow.get()][4]);
-                currentQuestionIndexRow.incrementAndGet();
-                updateEveryButton(array,currentQuestionIndexRow);
-            });
+        });
+
+        button3.setOnClickListener(v->
+        {
+            numToAddScore.getAndAdd(checkCorrectAnswer(array[currentQuestionIndexRow.get()][5],array[currentQuestionIndexRow.get()][4]));
+            currentQuestionIndexRow.incrementAndGet();
+            checkIfEnd(currentQuestionIndexRow.get(),maxLength,currentScore.get());
+            updateEveryButton(array,currentQuestionIndexRow);
+            updateCurrScore(numToAddScore,currentScore);
+
+        });
+
+
+        updateCurrScore(numToAddScore,currentScore);
 
     }
+
 
     /*Author: Eder Martinez
     * Purpose: update the displayFileQuiz, leading to updates when chaning button
@@ -223,10 +241,44 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
         pushToFront(array[currentQuestionIndexRow.get()][4], "quiz0_answer3_buttonid");// opt 3
     }
 
+    /**
+     * Author: Eder Martinez
+     * Purpose: solely to update score
+     *
+     *
+     * */
+    private void updateCurrScore(AtomicInteger addO, AtomicInteger currScore)
+    {
+        currScore.getAndAdd(addO.get());
+        String score = Integer.toString(currScore.get());
+        String pushThis = "Current Score:" +score;
+        pushToFront(pushThis,"quiz0_curscore_textid");
+    }
 
     /*
     * Author: Eder Martinez
-    * Purpose: to push to front the text at the given location
+    * Purpose: check if it is the end. Current represents the current row, end is the final and currentScore is the one we will push
+    * at the end
+    *
+    * */
+    private void checkIfEnd(int current, int end, int currentScore)
+    {
+        if(current==end)
+        {
+            Intent go = new Intent(this, A_0_BasicGreetings_menu_quiz_zend.class);
+            String curScoreString = Integer.toString(current);
+            go.putExtra( "currentScore",curScoreString);
+            startActivity(go);
+            finish();//use carefully
+        }
+    }
+
+
+
+    /*
+    * Author: Eder Martinez
+    * Purpose: to push to front the text at the given location either button or it does not matter
+    * since we can id it by string
     *
     */
     private void pushToFront(String text, String location)
@@ -281,6 +333,13 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
 
     }
 
+    /*
+    * Author: Eder Martinez
+    * purpose: Check if this is the corrct answer, if so it will return a 1 to add to the score otherwise, it will
+    * add 0 keeping the score the same
+    *
+    *
+    * */
     private int checkCorrectAnswer(String correct, String check)
     {
         if(correct.equals(check))
@@ -295,6 +354,8 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
 
 
     /*
+    * Author: Eder Martinez
+    * Purpose: to make alerts and push them up when needed
     *
     * */
     private void makeAlertStop(String id)

@@ -6,24 +6,49 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <Button
         android:id="@+id/a_0_menu_lesson_buttonid"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:layout_marginTop="200dp"
+        android:layout_width="200dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="100dp"
         android:text="Lesson"
-        android:textSize="20pt"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMaxTextSize="12pt"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/ripple_button"
+        android:padding="12pt"
+        android:elevation="10dp"
+        />
+
 
     <Button
         android:id="@+id/a_0_menu_quiz_buttonid"
-        android:layout_width="300dp"
-        android:layout_height="100dp"
-        android:layout_marginBottom="200dp"
+        android:layout_width="200dp"
+        android:layout_height="90dp"
+        android:layout_marginTop="100dp"
         android:text="Quiz"
-        android:textSize="20pt"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMaxTextSize="12pt"
+        app:layout_constraintTop_toBottomOf="@id/a_0_menu_lesson_buttonid"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        android:background="@drawable/ripple_button"
+        android:padding="12pt"
+        android:elevation="10dp"
+        />
+
+    <Button
+        android:id="@+id/a_0_menu_listenC_buttonid"
+        android:text="Listening Comprehension (coming soon)"
+        android:layout_width="200dp"
+        android:layout_height="90dp"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMaxTextSize="12pt"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/a_0_menu_quiz_buttonid"
+        android:layout_marginTop="100dp"
+        android:background="@drawable/ripple_button"
+        android:elevation="10dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

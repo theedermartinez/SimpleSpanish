@@ -7,6 +7,8 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
+    <!--Basically these are 20 by 9 buttons. witht the theme defined in the colors and the on tap behaviour on ripple
+    button. -->
     <TextView
         android:id="@+id/welcome_textid"
         android:layout_width="wrap_content"
@@ -21,7 +23,7 @@
         android:id="@+id/eder_martinez_textid"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="by Eder Martinez"
+        android:text="by MartianFox Softworks"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/welcome_textid"
@@ -29,6 +31,7 @@
         android:textSize="11sp"
         />
 
+    <!--use TINT AATKJ;LKJFFJKFJDSLKF-->
     <Button
         android:id="@+id/start_buttonid"
         android:layout_width="wrap_content"
@@ -38,7 +41,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/eder_martinez_textid"
         android:layout_marginTop="20dp"
-
+        android:background="@drawable/ripple_button"
+        android:padding="12pt"
+        android:elevation="10dp"
         />
 
 

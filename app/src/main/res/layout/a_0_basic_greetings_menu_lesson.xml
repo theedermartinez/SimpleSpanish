@@ -12,6 +12,7 @@
         <TextView
             android:id="@+id/lesson0_main_tile_0id"
             android:layout_width="wrap_content"
+            android:fontFamily="sans-serif"
             android:layout_height="wrap_content"
             android:text="looks like it doesnt work but does"
             android:textSize="30sp"
@@ -23,6 +24,8 @@
 
         <TextView
             android:id="@+id/lesson0_text0id"
+            android:fontFamily="sans-serif"
+            android:lineSpacingExtra="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -35,6 +38,8 @@
 
         <TextView
             android:id="@+id/lesson0_text1id"
+            android:fontFamily="sans-serif"
+            android:lineSpacingExtra="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"
@@ -47,6 +52,8 @@
 
         <TextView
             android:id="@+id/lesson0_text2id"
+            android:fontFamily="sans-serif"
+            android:lineSpacingExtra="8dp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintStart_toStartOf="parent"

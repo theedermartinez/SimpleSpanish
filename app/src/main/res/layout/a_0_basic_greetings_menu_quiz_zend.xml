@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:id="@+id/a_0_main_quiz_zend"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <TextView
+        android:id="@+id/quiz0_quiz_over_textid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Quiz over! Great Job"
+        android:textSize="20pt"
+        android:layout_marginTop="50dp"/>
+
+    <TextView
+        android:id="@+id/quiz0_quiz_result_textid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="150dp"
+        android:text="Score: Score Placeholder"
+        android:textSize="15pt"
+        />
+
+    <TextView
+        android:id="@+id/quiz0_quiz_encouragement_textid"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="250dp"
+        android:text="Return home and continue!"
+        android:textSize="15pt"
+        />
+    <Button
+        android:id="@+id/quiz0_return_home_buttonid"
+        android:layout_width="200dp"
+        android:layout_height="100dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:text="Home"
+        android:background="@drawable/ripple_button"
+        android:padding="12pt"
+        android:layout_marginTop="400dp"
+        android:autoSizeTextType="uniform"
+        android:autoSizeMaxTextSize="25pt"
+        />
+
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
