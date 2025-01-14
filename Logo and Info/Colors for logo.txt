@@ -1,0 +1,5 @@
+Colors for logo: 
+
+Dark red: #c62828
+Light red: #E57373
+Light blue: #90CAF9

@@ -2,7 +2,9 @@
 * Author: Eder Martinez
 * Purpose: to hold the quiz. It will get the info from the text file.
 * Comments: We initalize the buttons and then we pass them in. We then set up a listener for each individual button. When it is pressed, we check
-*
+* KNOWN ERRORS:After every quiz, we must reset everything back to 2 specially the atomic
+* numbers since we do not know the score and it could create and index out of bounds FIXED
+* Known Errors: None
  */
 
 package com.example.simplespanish;
@@ -28,7 +30,8 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
-
+//last thing we must add is an updater for the high score. We will keep every score in a arraylist and then push it and write it if
+//the thing changes.
 public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
 
     @Override
@@ -51,17 +54,28 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
 
         //make high score and push it
         BufferedReader bf = makeBufferedReader("quiz_high_scores_inorder");
+        int highScoreInt = -1;
         try
         {
-            String highScore = "High Score:"+bf.readLine();
-            pushToFront(highScore,"quiz0_maxscore_textid");
+            String highScore = bf.readLine();
+            String highScoreDisplay = "High Score:" +highScore;
+            pushToFront(highScoreDisplay,"quiz0_maxscore_textid");
+            highScoreInt = Integer.parseInt(highScore);
         }
         catch (Exception e)
         {
             makeAlertStop("Error pushing score");
         }
         //make quiz
-        readFileQuiz("a_0_basic_greetings_quiz",button0,button1,button2,button3);
+        String[][] map = readFileQuiz("a_0_basic_greetings_quiz");
+        //dipslay quiz
+        if(highScoreInt == -1)
+        {
+            makeAlertStop("Error: main A_0_BG_menu_L: failed to get highScore");
+        }
+        //read and display it within we call the check if it is the last one and check high score
+        //SUBTRACT ONE TO AVOUD IT GOING OVER AND GET AN INDEX EXCEPTION
+        displayFileQuiz(map,button0,button1,button2,button3,map.length - 1,highScoreInt);
 
 
 
@@ -73,7 +87,7 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
      * Purpose: based on read file. We will read one line at a time. slowsly and then update the score.
      *
      * */
-    private void readFileQuiz(String filename, Button button0, Button button1, Button button2, Button button3)
+    private String[][] readFileQuiz(String filename)
     {
 
         try
@@ -137,13 +151,15 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
 
             }
 
-            //after added we display it
+
+
+            //after added we display it in main
 
             //following variables are used for moving and answering
-            //moved to method displayFileQuiz
+            //moved to method displayFileQuiz movd to main
 
-            displayFileQuiz(keep2dArray,button0,button1,button2,button3,quizLength);
 
+            return keep2dArray;
 
         }
         catch (IOException e)
@@ -151,6 +167,12 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
             makeAlertStop("Error: readFileException A_0_BG_menu_L");
 
         }
+        //one return statement
+        String[][] hi = new String[0][0];
+
+        return hi;
+
+
     }
 
 
@@ -160,14 +182,14 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
     * DO NOT FORGET TO UPDATE WITHIN THE LISTENER TO CHANGE THE OUTCOME OF WHAT IS DISPLAYD
     *
      */
-    private void displayFileQuiz(String[][] array, Button button0, Button button1, Button button2, Button button3,int maxLength)
+    private void displayFileQuiz(String[][] array, Button button0, Button button1, Button button2, Button button3,int maxLength, int currHighScore)
     {
         AtomicInteger currentQuestionIndexRow = new AtomicInteger(0);//used to move the 2d array
         boolean endQuiz = false;
 
 
             /*
-            old can be deleted
+            legacy can be deleted
             pushToFront(array[currentQuestionIndexRow.get()][0], "quiz0_question_textid");//question
             pushToFront(array[currentQuestionIndexRow.get()][1], "quiz0_answer0_buttonid");//opt 0
             pushToFront(array[currentQuestionIndexRow.get()][2], "quiz0_answer1_buttonid");// opt 1
@@ -176,29 +198,36 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
             */
 
         updateEveryButton(array,currentQuestionIndexRow);
-        AtomicInteger numToAddScore = new AtomicInteger(0);
+        AtomicInteger numToAddScore = new AtomicInteger(0);//do not reset, we reset it elsewhere RESET IN
         AtomicInteger currentScore = new AtomicInteger(0);// we use atomic to keep it updating and it does not return to 0
+        //we must reset current score and row  in order for keep consistency between quizes. else we get error
 
         //button listeners
 
         button0.setOnClickListener(v->
         {
             numToAddScore.getAndAdd(checkCorrectAnswer(array[currentQuestionIndexRow.get()][5],array[currentQuestionIndexRow.get()][1]));
-            currentQuestionIndexRow.incrementAndGet();
-            checkIfEnd(currentQuestionIndexRow.get(),maxLength,currentScore.get());
-            updateEveryButton(array,currentQuestionIndexRow);
             updateCurrScore(numToAddScore,currentScore);
+            checkIfEnd(currentQuestionIndexRow.get(),maxLength,currentScore.get(),currHighScore,currentQuestionIndexRow,currentScore); //reset in here with new function index first
+            currentQuestionIndexRow.incrementAndGet();// increase if we dont quit but KEEP THIS AFTER CHECK IF END
+            updateEveryButton(array,currentQuestionIndexRow);
+            //RESET NUMtOADD INORDER TO KEEP IT FROM GETTING TO TWO
+
+            numToAddScore.set(0);//reset it to zero in order to hava it only add one or zero
 
 
         });
 
         button1.setOnClickListener(v->
         {
-            numToAddScore.getAndAdd(checkCorrectAnswer(array[currentQuestionIndexRow.get()][5],array[currentQuestionIndexRow.get()][2]));
-            currentQuestionIndexRow.incrementAndGet();
-            checkIfEnd(currentQuestionIndexRow.get(),maxLength,currentScore.get());
-            updateEveryButton(array,currentQuestionIndexRow);
+            numToAddScore.set(checkCorrectAnswer(array[currentQuestionIndexRow.get()][5],array[currentQuestionIndexRow.get()][2]));
             updateCurrScore(numToAddScore,currentScore);
+            checkIfEnd(currentQuestionIndexRow.get(),maxLength,currentScore.get(),currHighScore,currentQuestionIndexRow,currentScore);
+            currentQuestionIndexRow.incrementAndGet();
+            updateEveryButton(array,currentQuestionIndexRow);
+
+            numToAddScore.set(0);//reset it to zero in order to hava it only add one or zero
+
 
 
         });
@@ -206,25 +235,32 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
         button2.setOnClickListener(v->
         {
             numToAddScore.getAndAdd(checkCorrectAnswer(array[currentQuestionIndexRow.get()][5],array[currentQuestionIndexRow.get()][3]));
-            currentQuestionIndexRow.incrementAndGet();
-            checkIfEnd(currentQuestionIndexRow.get(),maxLength,currentScore.get());
-            updateEveryButton(array,currentQuestionIndexRow);
             updateCurrScore(numToAddScore,currentScore);
+            checkIfEnd(currentQuestionIndexRow.get(),maxLength,currentScore.get(),currHighScore,currentQuestionIndexRow,currentScore);
+            currentQuestionIndexRow.incrementAndGet();
+            updateEveryButton(array,currentQuestionIndexRow);
+
+            numToAddScore.set(0);//reset it to zero in order to hava it only add one or zero
+
 
         });
 
         button3.setOnClickListener(v->
         {
             numToAddScore.getAndAdd(checkCorrectAnswer(array[currentQuestionIndexRow.get()][5],array[currentQuestionIndexRow.get()][4]));
-            currentQuestionIndexRow.incrementAndGet();
-            checkIfEnd(currentQuestionIndexRow.get(),maxLength,currentScore.get());
-            updateEveryButton(array,currentQuestionIndexRow);
             updateCurrScore(numToAddScore,currentScore);
+            checkIfEnd(currentQuestionIndexRow.get(),maxLength,currentScore.get(),currHighScore,currentQuestionIndexRow,currentScore);
+            currentQuestionIndexRow.incrementAndGet();
+            updateEveryButton(array,currentQuestionIndexRow);
+
+            numToAddScore.set(0);//reset it to zero in order to hava it only add one or zero
+
 
         });
 
 
-        updateCurrScore(numToAddScore,currentScore);
+        //updateCurrScore(numToAddScore,currentScore);
+
 
     }
 
@@ -241,9 +277,9 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
         pushToFront(array[currentQuestionIndexRow.get()][4], "quiz0_answer3_buttonid");// opt 3
     }
 
-    /**
+    /*
      * Author: Eder Martinez
-     * Purpose: solely to update score
+     * Purpose: solely to update score using the atomic integer
      *
      *
      * */
@@ -257,20 +293,57 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
 
     /*
     * Author: Eder Martinez
-    * Purpose: check if it is the end. Current represents the current row, end is the final and currentScore is the one we will push
-    * at the end
+    * Purpose: check if it is the end. Current represents the current row, end is the final row, currentScore is current
+    * score and highScore is the high Score
+    * RESET THE ATOMIC NUMBERS TO AVOID A INDEX OUT OF BOUNDS ERROR
     *
     * */
-    private void checkIfEnd(int current, int end, int currentScore)
+    private void checkIfEnd(int current, int end, int currentScore,int highScore,AtomicInteger currentQuestionIndex, AtomicInteger currentScoreAtm)
     {
         if(current==end)
         {
-            Intent go = new Intent(this, A_0_BasicGreetings_menu_quiz_zend.class);
-            String curScoreString = Integer.toString(current);
-            go.putExtra( "currentScore",curScoreString);
-            startActivity(go);
-            finish();//use carefully
+            //check if the current score is higher, if so pass it on to be written if not then we do not write anything new
+            if(currentScore > highScore)
+            {
+                Intent go = new Intent(this, A_0_BasicGreetings_menu_quiz_zend.class);
+                String curScoreString = Integer.toString(currentScore);
+                go.putExtra("yesWriteNeeded",curScoreString);//we tell it we DO need it, we write it all later.
+                go.putExtra( "currentScore",curScoreString);
+                checkIfEndResetVar(currentQuestionIndex,currentScoreAtm);
+                startActivity(go);
+
+                //reset numbers before going and finishing
+
+                finish();//use carefully
+            }
+            else//if it not we just pass the current
+            {
+                Intent go = new Intent(this, A_0_BasicGreetings_menu_quiz_zend.class);
+                String curScoreString = Integer.toString(currentScore);
+                go.putExtra("noWriteNeeded",highScore);//we tell it we do not need it, later we check if nowriteneeded we do not write anything
+                go.putExtra( "currentScore",curScoreString);
+                checkIfEndResetVar(currentQuestionIndex,currentScoreAtm);
+                startActivity(go);
+                // CLEAR DO USECHECKIFENDRESET VAR
+
+
+
+
+                finish();//use carefully
+            }
+
         }
+    }
+
+
+    /*
+    * Author: Eder Martinez
+    * Purpose: to clear the atomic variables in order to avoid index errors
+    * */
+    private void checkIfEndResetVar(AtomicInteger row, AtomicInteger score)
+    {
+        row.set(0);
+        score.set(0);
     }
 
 
@@ -298,7 +371,26 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
 
     }
 
-
+    /*
+    * Author: Eder martinez
+    * Purpose: Trying to streamline the onclikc, not used yet
+    * */
+    private int getHighScore(BufferedReader bf)
+    {
+        try
+        {
+            String highScoreString = bf.readLine();
+            String highScore = "High Score:" + highScoreString;
+            pushToFront(highScore,"quiz0_maxscore_textid");
+            int highScoreInt = Integer.parseInt(highScoreString);
+            return highScoreInt;
+        }
+        catch (Exception e)
+        {
+            makeAlertStop("Error pushing score");
+        }
+        return 0;
+    }
 
 
     /*within we have to push and read from the file
@@ -367,6 +459,7 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
                 {
                     dialog.dismiss();
                     returnHome();
+                    finish();//finish since we stop the program from running.
                 }).show();
 
     }
