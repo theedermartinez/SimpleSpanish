@@ -8,17 +8,14 @@
             <item name="colorPrimaryVariant">@color/black</item>
             <item name="colorSecondary">@color/dark_peach</item>
             <item name="buttonStyle">@style/ThemeRippleStyle</item>
-            <item name="buttonStyle">@style/StopSound</item>
+
         </style>
 
     <style name="ThemeRippleStyle" parent = "Widget.MaterialComponents.Button">
         <item name="android:background">?attr/selectableItemBackground</item>
         <item name = "backgroundTint">@color/peach</item>
         <item name = "rippleColor">@color/dark_mint</item>
-    </style>
-
-    <style name="StopSound" parent="Widget.AppCompat.Button">
-        <item name = "android:soundEffectsEnabled">false</item>
+        <item name="android:soundEffectsEnabled">false</item>
     </style>
 
 

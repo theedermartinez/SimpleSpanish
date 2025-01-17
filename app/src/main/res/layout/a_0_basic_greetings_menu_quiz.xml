@@ -6,18 +6,25 @@
     android:id="@+id/a_0_main_quiz"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+<!--use sp to allow growth and resizing as needed
+    Note: must show both begining end top and bottom "parent" in order for the program to know
+    how far to go-->
     <TextView
         android:id="@+id/quiz0_question_textid"
-        android:text="question place holder"
+        android:text="question placeholder lhijjjjjjjjjjjjjjjjjjjjjjjjjjjjj jjjjjjjjjjjjjj jjjjjjjjjjj"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:textSize="20pt"
-        android:layout_marginTop="10dp"
-        />
+        android:textSize="30dp"
+        android:gravity="center"
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:scrollHorizontally="false"
+        android:singleLine="false"
+        android:padding="10dp"/>
 
     <Button
         android:id="@+id/quiz0_answer0_buttonid"
@@ -102,7 +109,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:height="30dp"
-        android:text="Max Score: 1"
+        android:text="Max Score: Error"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginRight="20dp"
@@ -113,7 +120,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:height="30dp"
-        android:text="Current Score: pc"
+        android:text="Current Score: 0"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginLeft="20dp"

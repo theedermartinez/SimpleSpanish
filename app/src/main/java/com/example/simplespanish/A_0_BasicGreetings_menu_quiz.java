@@ -11,9 +11,11 @@ package com.example.simplespanish;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -48,11 +50,16 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
         // import full file and put it in a  array one per question to keep track, create a arraylist to keep track of the questions left
         //initialte the buttons
         Button button0 = findViewById(R.id.quiz0_answer0_buttonid);
+        button0.setSoundEffectsEnabled(false);//turn off sound
         Button button1 = findViewById(R.id.quiz0_answer1_buttonid);
+        button1.setSoundEffectsEnabled(false);//turn off sound
         Button button2 = findViewById(R.id.quiz0_answer2_buttonid);
+        button2.setSoundEffectsEnabled(false);//turn off sound
         Button button3 = findViewById(R.id.quiz0_answer3_buttonid);
+        button3.setSoundEffectsEnabled(false);//turn off sound
 
-        //make high score and push it
+        //make high score and push it*********we now use shared memory lets try to get it using it
+        /*
         BufferedReader bf = makeBufferedReader("quiz_high_scores_inorder");
         int highScoreInt = -1;
         try
@@ -62,10 +69,19 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
             pushToFront(highScoreDisplay,"quiz0_maxscore_textid");
             highScoreInt = Integer.parseInt(highScore);
         }
-        catch (Exception e)
+        catch (Exception e)A
         {
             makeAlertStop("Error pushing score");
         }
+        */
+
+        //initiate shared preferences
+
+        SharedPreferences sp = getSharedPreferences("HighScores", MODE_PRIVATE);
+
+        int highScoreInt = sp.getInt("a_0_basic_greetings_menu_quiz",-1);//key and 0 to be defualt value so it is -1
+
+
         //make quiz
         String[][] map = readFileQuiz("a_0_basic_greetings_quiz");
         //dipslay quiz
@@ -73,6 +89,9 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
         {
             makeAlertStop("Error: main A_0_BG_menu_L: failed to get highScore");
         }
+        //push new score to front
+        String highScoreString = Integer.toString(highScoreInt);
+        pushToFront("High Score: "+highScoreString,"quiz0_maxscore_textid");
         //read and display it within we call the check if it is the last one and check high score
         //SUBTRACT ONE TO AVOUD IT GOING OVER AND GET AN INDEX EXCEPTION
         displayFileQuiz(map,button0,button1,button2,button3,map.length - 1,highScoreInt);
@@ -429,13 +448,18 @@ public class A_0_BasicGreetings_menu_quiz extends AppCompatActivity {
     * Author: Eder Martinez
     * purpose: Check if this is the corrct answer, if so it will return a 1 to add to the score otherwise, it will
     * add 0 keeping the score the same
+    * Here we make the sound too!!!!!
+    * Here we make toasts!!!
     *
     *
     * */
     private int checkCorrectAnswer(String correct, String check)
     {
+        
+
         if(correct.equals(check))
         {
+
             return 1;
         }
         else

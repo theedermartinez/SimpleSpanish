@@ -5,7 +5,8 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    >
 
     <!--Basically these are 20 by 9 buttons. witht the theme defined in the colors and the on tap behaviour on ripple
     button. -->
@@ -44,6 +45,7 @@
         android:background="@drawable/ripple_button"
         android:padding="12pt"
         android:elevation="10dp"
+
         />
 
 

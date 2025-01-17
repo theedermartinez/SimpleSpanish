@@ -1,13 +1,15 @@
 /*
 * Author: Eder Martinez
-* Purpose: To change score and display it
+* Purpose: To change score and display it we use the Preferences !!1
 *
 * */
 
 package com.example.simplespanish;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.TextView;
@@ -44,6 +46,7 @@ public class A_0_BasicGreetings_menu_quiz_zend extends AppCompatActivity {
 
         //button listener and action
         Button homeButton = findViewById(R.id.quiz0_return_home_buttonid);
+        homeButton.setSoundEffectsEnabled(false);//turn off sound
         homeButton.setOnClickListener(v -> {
             returnHome();
         });
@@ -64,13 +67,22 @@ public class A_0_BasicGreetings_menu_quiz_zend extends AppCompatActivity {
         {
             //we must write the new value in
 
-            BufferedReader bf = makeBufferedReader("quiz_high_scores_inorder.txt");
-            ArrayList<String> scores = listOfScores(bf);
-            writeScores(scores,indexToChange,yesValWrite);
+            //BufferedReader bf = makeBufferedReader("quiz_high_scores_inorder.txt");
+            //ArrayList<String> scores = listOfScores(bf);
+            //writeScores(scores,indexToChange,yesValWrite);
+
+            Integer score = Integer.parseInt(value);
+
+            updateHighScores(score,"a_0_basic_greetings_menu_quiz");
+
+
+
+
 
 
 
         }
+        //else we do not change the score
 
     }
 
@@ -192,6 +204,16 @@ public class A_0_BasicGreetings_menu_quiz_zend extends AppCompatActivity {
         }
         //we return a default value
         return new BufferedReader(new StringReader("Error in reader"));
+
+    }
+
+    private void updateHighScores(int highScores, String location)
+    {
+        SharedPreferences sp = getSharedPreferences("HighScores", Context.MODE_PRIVATE);
+        SharedPreferences.Editor edit = sp.edit();
+
+        edit.putInt(location,highScores);
+        edit.apply();
 
     }
 

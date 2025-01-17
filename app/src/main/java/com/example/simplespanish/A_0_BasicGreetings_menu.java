@@ -33,6 +33,8 @@ public class A_0_BasicGreetings_menu extends AppCompatActivity {
 
         //lesson button
         Button lesson = findViewById(R.id.a_0_menu_lesson_buttonid);
+        lesson.setSoundEffectsEnabled(false);//turn off sound
+
         lesson.setOnClickListener(v ->
         {
             Intent go = new Intent(A_0_BasicGreetings_menu.this, A_0_BasicGreetings_menu_lesson.class);
@@ -42,6 +44,7 @@ public class A_0_BasicGreetings_menu extends AppCompatActivity {
         //quiz button
 
         Button quiz = findViewById(R.id.a_0_menu_quiz_buttonid);
+        quiz.setSoundEffectsEnabled(false);//turn off sound
         quiz.setOnClickListener(v ->
         {
             Intent go = new Intent(A_0_BasicGreetings_menu.this, A_0_BasicGreetings_menu_quiz.class);

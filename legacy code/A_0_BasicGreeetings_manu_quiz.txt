@@ -1,0 +1,18 @@
+-------------Old way of getting high score---
+ //make high score and push it*********we now use shared memory lets try to get it using it
+
+        /*
+        BufferedReader bf = makeBufferedReader("quiz_high_scores_inorder");
+        int highScoreInt = -1;
+        try
+        {
+            String highScore = bf.readLine();
+            String highScoreDisplay = "High Score:" +highScore;
+            pushToFront(highScoreDisplay,"quiz0_maxscore_textid");
+            highScoreInt = Integer.parseInt(highScore);
+        }
+        catch (Exception e)
+        {
+            makeAlertStop("Error pushing score");
+        }
+        */

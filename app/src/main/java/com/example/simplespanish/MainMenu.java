@@ -31,7 +31,10 @@ public class MainMenu extends AppCompatActivity {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+
+
         Button start = findViewById(R.id.basic_greetings_buttonid);
+        start.setSoundEffectsEnabled(false);
 
         start.setOnClickListener(v ->{
             Intent go = new Intent(MainMenu.this, A_0_BasicGreetings_menu.class);

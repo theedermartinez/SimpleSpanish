@@ -1,0 +1,4 @@
+Souces: 
+
+Music and sound make with :https://sfxr.me/
+Speciasl thanks to: Stack overflow and Android studio docs
